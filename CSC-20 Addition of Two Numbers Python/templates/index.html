@@ -3,13 +3,19 @@ Run these commands in Terminal to set up and start the Flask app:
 cd "/Users/ivankrupnov/Documents/CSC-20 All Projects for the Final Exam/CSC-20 Addition of Two Numbers Python"
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install Flask
+python -m pip install -r requirements.txt
 python app.py
 
-Open the webpage:
-open http://127.0.0.1:5000
+Open the calculator webpage:
+open http://127.0.0.1:5000/calculator
 
-JSON API examples (operation can be add, subtract, multiply, or divide):
+Assignment GET addition request:
+curl "http://127.0.0.1:5000/add?num1=10&num2=20"
+
+Assignment POST addition request:
+curl -X POST http://127.0.0.1:5000/add -H "Content-Type: application/json" -d '{"num1": 10, "num2": 20}'
+
+Multi-operation API examples (operation can be add, subtract, multiply, or divide):
 curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "add"}'
 curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "subtract"}'
 curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "multiply"}'
@@ -25,6 +31,7 @@ curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -
 </head>
 <body>
     <h1>Calculator</h1>
+    <p>Assignment microservice status: visit <a href="/">the status page</a> or <a href="/test">the API test page</a>.</p>
 
     <!-- POST sends the form values to Flask, which calculates and returns the result. -->
     <form method="POST">

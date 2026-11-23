@@ -18,6 +18,7 @@ In `CSC-20 Addition of Two Numbers Python/`:
 - `addition.py` contains the arithmetic functions and terminal calculator.
 - `additionGUI.py` is the Tkinter desktop calculator.
 - `app.py` runs the Flask website and JSON API.
+- `requirements.txt` lists the Flask dependency.
 - `templates/index.html` contains the Flask website form.
 
 The calculators support addition, subtraction, multiplication, and whole-number division.
@@ -72,17 +73,28 @@ From the repository root, set up and start the Flask app:
 cd "CSC-20 Addition of Two Numbers Python"
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install Flask
+python -m pip install -r requirements.txt
 python app.py
 ```
 
-Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in a browser. Select an operation, enter two whole numbers, and click **Calculate**.
+The microservice status message is at [http://127.0.0.1:5000](http://127.0.0.1:5000), and the API test message is at [http://127.0.0.1:5000/test](http://127.0.0.1:5000/test). Open [http://127.0.0.1:5000/calculator](http://127.0.0.1:5000/calculator) to use the calculator webpage. Select an operation, enter two whole numbers, and click **Calculate**.
 
 Press **Control + C** in the Terminal window running Flask to stop the server.
 
 ## Use the JSON API
 
-With the Flask server running, send a `POST` request to `/api/add`. Include two whole numbers and an operation in the JSON body. The operation can be `add`, `subtract`, `multiply`, or `divide`.
+With the Flask server running, the assignment's `/add` endpoint accepts either a GET request with `num1` and `num2` query parameters or a POST request with those fields in a JSON body. It returns both values and their sum as JSON:
+
+```bash
+curl "http://127.0.0.1:5000/add?num1=10&num2=20"
+curl -X POST http://127.0.0.1:5000/add \
+  -H "Content-Type: application/json" \
+  -d '{"num1": 10, "num2": 20}'
+```
+
+Both requests return a JSON object with `num1`, `num2`, and `result`. This endpoint accepts decimal numbers and returns a JSON error with status 400 when either value is missing or invalid.
+
+The calculator's `/api/add` endpoint supports all four operations. Include two whole numbers and an optional operation in the JSON body. The operation can be `add`, `subtract`, `multiply`, or `divide`.
 
 For example, this subtracts 5 from 7:
 

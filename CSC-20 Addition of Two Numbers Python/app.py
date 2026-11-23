@@ -2,18 +2,27 @@
 # cd "/Users/ivankrupnov/Documents/CSC-20 All Projects for the Final Exam/CSC-20 Addition of Two Numbers Python"
 # python3 -m venv .venv
 # source .venv/bin/activate
-# python -m pip install Flask
+# python -m pip install -r requirements.txt
 # python app.py
 #
-# Open the webpage in a browser:
+# Check the microservice status:
 # open http://127.0.0.1:5000
+#
+# Open the calculator webpage:
+# open http://127.0.0.1:5000/calculator
+#
+# Test the assignment's GET addition endpoint:
+# curl "http://127.0.0.1:5000/add?num1=10&num2=20"
+#
+# Test the assignment's POST addition endpoint:
+# curl -X POST http://127.0.0.1:5000/add -H "Content-Type: application/json" -d '{"num1": 10, "num2": 20}'
 #
 # Test the JSON API in a second Terminal window (operation can be add, subtract, multiply, or divide):
 # curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "subtract"}'
 #
 # Stop the server with Control+C in the Terminal window running Flask.
 
-# This Flask app serves the calculator webpage and its JSON web service.
+# This Flask app provides assignment status routes, an addition API, and a calculator webpage/API.
 from flask import Flask, jsonify, render_template, request
 
 # Share the same arithmetic functions with the other calculator programs.
@@ -39,7 +48,43 @@ def calculate(number1, number2, operation):
     raise ValueError("Choose add, subtract, multiply, or divide.")
 
 
-@app.route("/", methods=["GET", "POST"])
+# Return a simple status message at the assignment's root URL.
+@app.route("/", methods=["GET"])
+def home():
+    return "Flask Microservice is Running Successfully!"
+
+
+# Let the assignment verify the service with a separate test route.
+@app.route("/test", methods=["GET"])
+def test():
+    return "API Test Successful! Flask is Ready."
+
+
+# Provide the assignment's GET and POST addition API using decimal numbers.
+@app.route("/add", methods=["GET", "POST"])
+def add_numbers():
+    try:
+        if request.method == "GET":
+            # Read numbers from URL query parameters, such as /add?num1=10&num2=20.
+            number1 = float(request.args.get("num1"))
+            number2 = float(request.args.get("num2"))
+        else:
+            # Read num1 and num2 from the JSON request body.
+            data = request.get_json(silent=True)
+            number1 = float(data["num1"])
+            number2 = float(data["num2"])
+    except (TypeError, ValueError, KeyError):
+        return jsonify(error="Please provide valid num1 and num2."), 400
+
+    return jsonify(
+        num1=number1,
+        num2=number2,
+        result=number1 + number2,
+    )
+
+
+# Serve the HTML calculator separately from the assignment's status root page.
+@app.route("/calculator", methods=["GET", "POST"])
 def index():
     # Start with no result; a submitted form will set a result or an error message.
     result = ""
@@ -111,6 +156,6 @@ def api_add():
     return jsonify(result=result)
 
 
-# Start the local development server when this file is run directly.
+# Start the local development server on the assignment's address and port.
 if __name__ == "__main__":
-    app.run()
+    app.run(host="127.0.0.1", port=5000, debug=True)
