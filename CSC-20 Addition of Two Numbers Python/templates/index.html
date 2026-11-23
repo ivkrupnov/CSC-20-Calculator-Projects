@@ -1,0 +1,59 @@
+<!--
+Run these commands in Terminal to set up and start the Flask app:
+cd "/Users/ivankrupnov/Documents/CSC-20 All Projects for the Final Exam/CSC-20 Addition of Two Numbers Python"
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install Flask
+python app.py
+
+Open the webpage:
+open http://127.0.0.1:5000
+
+JSON API examples (operation can be add, subtract, multiply, or divide):
+curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "add"}'
+curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "subtract"}'
+curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "multiply"}'
+curl -X POST http://127.0.0.1:5000/api/add -H "Content-Type: application/json" -d '{"number1": 7, "number2": 5, "operation": "divide"}'
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Set the page text encoding and the title shown in the browser tab. -->
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+</head>
+<body>
+    <h1>Calculator</h1>
+
+    <!-- POST sends the form values to Flask, which calculates and returns the result. -->
+    <form method="POST">
+        <!-- Each input's name is the key Flask reads from the submitted form. -->
+        <label for="number1">First number:</label>
+        <input type="number" step="1" id="number1" name="number1">
+
+        <br><br>
+
+        <label for="number2">Second number:</label>
+        <input type="number" step="1" id="number2" name="number2">
+
+        <br><br>
+
+        <!-- The selected option tells Flask which arithmetic operation to perform. -->
+        <label for="operation">Operation:</label>
+        <select id="operation" name="operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <!-- Flask/Jinja replaces result with the answer or an input error message. -->
+    <p>Result: {{ result }}</p>
+</body>
+</html>
