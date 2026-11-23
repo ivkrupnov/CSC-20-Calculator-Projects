@@ -1,6 +1,6 @@
 # CSC 20 Calculator Projects
 
-This repository contains beginner calculator projects written in Java and Python. The calculators can run in a terminal, in a desktop GUI, or as a Flask website with a JSON API.
+This repository contains calculator projects written in Java and Python. The calculators can run in a terminal, in a desktop GUI, or as a Flask website with a JSON API.
 
 ## Project files
 
