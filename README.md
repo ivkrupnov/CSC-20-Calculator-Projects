@@ -73,6 +73,4 @@ On macOS systems where `python3` does not include Tkinter, try:
 
 Enter two integers, select an operation from the dropdown, and click **Calculate**.
 
-## Iteration 3: Work in progress
-
-Iteration 3 is currently a work in progress (WIP).
+## Create an Application that Add two numbers with Python and Flask Webservices API-JSON -Microservice
