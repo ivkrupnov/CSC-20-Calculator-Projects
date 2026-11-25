@@ -28,7 +28,7 @@ java addition
 
 Enter two integers and then enter `add`, `subtract`, `multiply`, or `divide`.
 
-### Run the Java GUI
+### (Optional) Run the Java GUI
 
 ```bash
 cd "CSC-20 Addition of Two Numbers Java"
